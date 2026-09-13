@@ -1,4 +1,4 @@
-﻿from typing import Any, Callable, List, Optional, TypeVar
+from typing import Any, Callable, List, Optional, TypeVar
 
 import pygame
 
@@ -26,7 +26,7 @@ class BossRoom(Room):
         pass
 
     def _spawn_boss(self) -> None:
-        #Coloca al jefe en el lado opuesto a la puerta de entrada
+        #Place the boss on the opposite side of the entry door
         cx = settings.MAP_RENDER_OFFSET_X + settings.MAP_WIDTH  * settings.TILE_SIZE // 2
         cy = settings.MAP_RENDER_OFFSET_Y + settings.MAP_HEIGHT * settings.TILE_SIZE // 2
 
@@ -59,7 +59,7 @@ class BossRoom(Room):
             self.boss.process_ai(self, dt)
             self.boss.update(dt)
 
-            # Contacto directo con el jefe son 2 HP de danho
+            # Direct contact with the boss deals 2 HP damage
             if self.player.collides(self.boss) and not self.player.invulnerable:
                 settings.SOUNDS["hit-player"].play()
                 self.player.damage(2)

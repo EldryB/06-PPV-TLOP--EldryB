@@ -57,7 +57,7 @@ class Boss(Entity):
         self.vulnerable_timer = settings.BOSS_VULNERABLE_DURATION
         self.immune_to_sword  = False
         settings.SOUNDS["hit-enemy"].play()
-        self.go_invulnerable(0.2)   # flash breve de impacto
+        self.go_invulnerable(0.2)   # brief hit flash
 
 
     def process_ai(self, room: Any, dt: float) -> None:
@@ -79,18 +79,18 @@ class Boss(Entity):
                 self.vulnerable_timer = 0.0
                 self.immune_to_sword  = True
                 
-                # Al terminar la vulnerabilidad se vuelve inmune a flechas por 5s
+                # After vulnerability ends, become immune to arrows for 5s
                 self.arrow_hit_immune       = True
                 self.arrow_hit_immune_timer = settings.BOSS_ARROW_IMMUNE_AFTER
 
-        # Inmunidad a las flechas 
+        # Arrow immunity
         if self.arrow_hit_immune:
             self.arrow_hit_immune_timer -= dt
             if self.arrow_hit_immune_timer <= 0:
                 self.arrow_hit_immune       = False
                 self.arrow_hit_immune_timer = 0.0
 
-        # Cooldown de espadazo, 1s entre golpes
+        # Sword hit cooldown, 1s between hits
         if self.sword_hit_immune:
             self.sword_hit_immune_timer -= dt
             if self.sword_hit_immune_timer <= 0:
@@ -147,7 +147,7 @@ class Boss(Entity):
                 self.invulnerable_duration = 0.0
                 self.flash_timer           = 0.0
 
-        # Parpadeo activo mientras tiene inmunidad
+        # Active flashing while arrow-immune
         if self.arrow_hit_immune:
             self.flash_timer += dt
 

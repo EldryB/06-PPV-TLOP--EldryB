@@ -333,8 +333,8 @@ class Room:
 
     def _generate_objects(self) -> None:
 
-        # Rects de objetos ya colocados en esta sala, se va llenando a medida
-        # que se agrega cada objeto para que los siguientes los respeten
+        # Rects of objects already placed in this room, gets populated as
+        # each object is added so that subsequent ones respect them
         occupied: List[pygame.Rect] = []
 
         def _find_free_rect(width: int, height: int,
@@ -354,7 +354,7 @@ class Room:
             self.player.chest_spawned = False
 
         if not self.player.chest_spawned and not getattr(self.player, 'has_bow', False):
-            if random.randint(1, 10) <= 2:   # 20% de probabilidad por sala
+            if random.randint(1, 10) <= 2:   # 20% probability per room
                 chest_def = GAME_OBJECT_DEFS["chest"]
                 rect = _find_free_rect(
                     chest_def["width"], chest_def["height"],
@@ -465,16 +465,16 @@ class Room:
         player_rect = player.get_collision_rect()
 
         for obj in self.objects:
-            # Revisa cofres abiertos a los que no se les haya tomado el arco aún
+            # Check open chests from which the bow has not been taken yet
             if getattr(obj, "type", "") == "chest" and obj.state == "open" and not getattr(obj, "bow_taken", False):
-                # umbral de 12px en cada lado
+                # 12px threshold on each side
                 proximity_zone = obj.get_collision_rect().inflate(24, 24)
 
                 if player_rect.colliderect(proximity_zone):
                     obj.bow_taken = True
                     player.has_bow = True
                     
-                    # Eliminar el GameObject del arco de la sala
+                    # Remove the bow GameObject from the room
                     for other_obj in list(self.objects):
                         if getattr(other_obj, "type", "") == "bow":
                             self.objects.remove(other_obj)

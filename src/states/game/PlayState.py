@@ -93,7 +93,7 @@ class PlayState(BaseState):
 
             health_left -= 2
 
-        # Mostrar HP del jefe en la esquina superior derecha
+        # Display boss HP in the top right corner
         boss = getattr(self.dungeon.current_room, "boss", None)
         if boss is not None and not boss.dead:
             hp_text = f"HP: {max(0, boss.health)}/{settings.BOSS_HEALTH}"

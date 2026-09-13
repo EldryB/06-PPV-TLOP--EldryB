@@ -67,7 +67,7 @@ TILE_FLOORS = [
     88, 89, 107, 108,
 ]
 
-#Jefe
+# Boss
 BOSS_WALK_SPEED = 30    
 BOSS_FIRE_COOLDOWN = 2.5  
 BOSS_VULNERABLE_DURATION = 2.5   
@@ -164,13 +164,13 @@ COLOR_TITLE_SHADOW = (34, 34, 34)
 COLOR_TITLE = (175, 53, 42)
 COLOR_WHITE = (255, 255, 255)
 
-#Flecha
+# Arrow
 ARROW_SPEED = 100   
 ARROW_MAX_TILES = 5     
 ARROW_W = 10   
 ARROW_H = 5     
 
-# Arco
+# Bow
 BOW_COOLDOWN = 1.0    
 BOW_W = 16
 BOW_H = 16  
