@@ -173,7 +173,6 @@ class Room:
                     obj.state = "open"
                     settings.SOUNDS["door"].play()  
 
-                    from src.definitions.game_objects import GAME_OBJECT_DEFS
                     bx = obj.x + (obj.width / 2) - 8
                     by = obj.y
                     
