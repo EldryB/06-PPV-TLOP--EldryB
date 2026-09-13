@@ -21,3 +21,7 @@ Al chocar una flecha con el jefe, se dispara su vulnerabilidad por 2 segundos, l
 Daño al jugador: En el bucle de actualización (update) de la sala, se evalúan las colisiones,
 Si el rectángulo de una Fireball choca con el del jugador, se aplica daño máximo.
 Si el cuerpo del Boss choca con el jugador, se le restan 2 puntos de vida (el equivalente a un corazón completo).
+
+## Nota
+
+Para efecto del video hay un 100% de probabilidad de que salga el cofre y el jefe. Hay que tener en cuenta que el jefe puede salir varias veces por partida (respetando la probabilidad)

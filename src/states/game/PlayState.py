@@ -96,7 +96,7 @@ class PlayState(BaseState):
         # Mostrar HP del jefe en la esquina superior derecha
         boss = getattr(self.dungeon.current_room, "boss", None)
         if boss is not None and not boss.dead:
-            hp_text = f"HP: {max(0, boss.health)}/10"
+            hp_text = f"HP: {max(0, boss.health)}/{settings.BOSS_HEALTH}"
             text_surface = settings.FONTS["princess-small"].render(
                 hp_text, True, (220, 50, 50)
             )
