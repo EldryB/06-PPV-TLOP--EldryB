@@ -70,5 +70,18 @@ GAME_OBJECT_DEFS: Dict[str, Dict[str, Any]] = {
             "closed": {"frame": 1},
             "open": {"frame": 2},
         },
+    },
+    "bow": {
+        "type": "bow",
+        "texture": "bow",
+        "frame": 1,
+        "width": 16,
+        "height": 16,
+        "solid": False,
+        "consumable": False,
+        "default_state": "default",
+        "states": {
+            "default": {"frame": 1},
+        },
     }
 }

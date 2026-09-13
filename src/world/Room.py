@@ -14,6 +14,7 @@ from typing import Any, Callable, List, Optional, TypeVar
 import pygame
 
 from gale.tilemap import TileMap
+from gale.timer import Timer
 
 import settings
 from src.definitions.entity import ENTITY_DEFS
@@ -165,6 +166,21 @@ class Room:
 
         for obj in list(self.objects):
             obj.update(dt)
+
+            if getattr(obj, "type", "") == "chest" and obj.state == "closed":
+                proximity_zone = obj.get_collision_rect().inflate(24, 24)
+                if self.player.get_collision_rect().colliderect(proximity_zone):
+                    obj.state = "open"
+                    settings.SOUNDS["door"].play()  
+
+                    from src.definitions.game_objects import GAME_OBJECT_DEFS
+                    bx = obj.x + (obj.width / 2) - 8
+                    by = obj.y
+                    
+                    bow_obj = GameObject(GAME_OBJECT_DEFS["bow"], bx, by)
+                    self.objects.append(bow_obj)
+                    
+                    Timer.tween(0.3, [(bow_obj, {"y": by - settings.TILE_SIZE})])
 
             if self.player.collides(obj):
                 obj.on_collide()
@@ -339,7 +355,7 @@ class Room:
             self.player.chest_spawned = False
 
         if not self.player.chest_spawned and not getattr(self.player, 'has_bow', False):
-            if random.randint(1, 10) <= 3:   # 30% de probabilidad por sala
+            if random.randint(1, 10) <= 2:   # 20% de probabilidad por sala
                 chest_def = GAME_OBJECT_DEFS["chest"]
                 rect = _find_free_rect(
                     chest_def["width"], chest_def["height"],
@@ -423,7 +439,6 @@ class Room:
                     ),
                     tileset.rect_for(gid),
                 )
-
         for doorway in self.doorways:
             doorway.render(surface, offset_x, offset_y)
 
@@ -434,21 +449,6 @@ class Room:
             if not entity.dead:
                 entity.render(surface, offset_x, offset_y)
 
-        # The player and projectiles are drawn using only the camera pan —
-        # never this room's own adjacent_offset — matching the original,
-        # where Player:render()/Projectile:render() take no room offset at
-        # all. Their x/y already track the correct absolute (pre-camera-pan)
-        # screen position on their own, including mid-tween during a room
-        # shift; adding adjacent_offset on top (as tiles/entities do) would
-        # draw them a full room-width off from where they actually are.
-        #
-        # While the player is near a doorway, clip their sprite to that
-        # doorway's own opening rect (via gale.stencil, applied inside
-        # Entity.render_sprite) instead of hiding them outright: the part
-        # of the sprite still overlapping solid wall disappears, but the
-        # part inside the opening keeps showing, so walking (or, mid
-        # room-shift, tweening) through the gap reads as passing under/
-        # through the archway rather than blinking out of existence.
         if self.player:
             self.player.visibility_clip_rect = _doorway_opening_for(
                 self.player.get_collision_rect(), self._doorways_by_direction
@@ -466,13 +466,20 @@ class Room:
         player_rect = player.get_collision_rect()
 
         for obj in self.objects:
-            if getattr(obj, "type", "") == "chest" and obj.state == "closed":
+            # Revisa cofres abiertos a los que no se les haya tomado el arco aún
+            if getattr(obj, "type", "") == "chest" and obj.state == "open" and not getattr(obj, "bow_taken", False):
                 # umbral de 12px en cada lado
                 proximity_zone = obj.get_collision_rect().inflate(24, 24)
 
                 if player_rect.colliderect(proximity_zone):
-                    obj.state = "open"
+                    obj.bow_taken = True
                     player.has_bow = True
+                    
+                    # Eliminar el GameObject del arco de la sala
+                    for other_obj in list(self.objects):
+                        if getattr(other_obj, "type", "") == "bow":
+                            self.objects.remove(other_obj)
+                            break
 
                     from src.Bow import Bow
                     player.bow = Bow()

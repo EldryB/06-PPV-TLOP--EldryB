@@ -59,7 +59,7 @@ class Dungeon:
         else:
             entry_direction = "bottom" 
 
-        if getattr(self.player, "has_bow", False) and random.randint(1, 10) <= 4:
+        if getattr(self.player, "has_bow", False) and random.randint(1, 10) <= 2: #20% de probabilidad de que salga el jefe si tenemos el arco
             self.next_room = BossRoom(self.player, self.on_game_over, entry_direction)
         else:
             self.next_room = Room(self.player, self.on_game_over)

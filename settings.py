@@ -100,6 +100,7 @@ TEXTURES = {
     "chests": pygame.image.load(BASE_DIR / "assets" / "graphics" / "chest.png"),
     "arrow": pygame.image.load(BASE_DIR / "assets" / "graphics" / "arrow.png"),
     "boss": pygame.image.load(BASE_DIR / "assets" / "graphics" / "boss.png"),
+    "bow": pygame.image.load(BASE_DIR / "assets" / "graphics" / "bow.png"),
 }
 
 # Used by Room's gale.tilemap.TileMap: TILE_* ids above are 1-based,
@@ -121,6 +122,7 @@ FRAMES = {
     "arrow": frames.generate_frames(TEXTURES["arrow"], 15, 7),
 
     "boss": frames.generate_frames(TEXTURES["boss"], 32, 32),
+    "bow": frames.generate_frames(TEXTURES["bow"], 16, 16),
 }
 
 
@@ -169,7 +171,10 @@ ARROW_W = 10
 ARROW_H = 5     
 
 # Arco
-BOW_COOLDOWN = 1.0     
+BOW_COOLDOWN = 1.0    
+BOW_W = 16
+BOW_H = 16  
+
 
 #Fireball
 FIREBALL_SPEED  = 80    
