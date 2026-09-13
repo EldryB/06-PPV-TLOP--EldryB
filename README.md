@@ -1,7 +1,7 @@
 # The Legend Of The Princess
 
 ## Sistema de Cofre y Arco
-Interacción y Recompensa: Se implemento la probabilidad de que se genere un cofre (30% de probabilidad) cada vez que se entre a una room. Al acercarse, se abre el cofre y al presionar enter se activa player.has_bow = True y se equipa invocando player.bow = Bow().
+Interacción y Recompensa: Se implemento la probabilidad de que se genere un cofre (20% de probabilidad) cada vez que se entre a una room. Al acercarse, se abre el cofre y al presionar enter se activa player.has_bow = True y se equipa invocando player.bow = Bow().
 Generación aleatoria: El cofre se genera en una posición libre aleatoria de la sala con su respectiva probabilidad, asegurando que no se superponga con otros objetos.
 Mecánica de disparo y Patrón Factory:
 Se creó la clase Bow con el método fire(player).
@@ -9,7 +9,7 @@ Se implementó la clase estática ArrowFactory. Al invocar fire(), el arco llama
 Todo respeta un cooldown de 1 segundo controlado por el dt.
 
 ## Habitación del Jefe y Comportamiento
-Acceso a la sala: En la función que hace la transición de salas, se añadió un condicional: si el jugador ya tiene el arco, hay una probabilidad (40%) de instanciar un objeto de clase BossRoom en lugar de un Room normal.
+Acceso a la sala: En la función que hace la transición de salas, se añadió un condicional: si el jugador ya tiene el arco, hay una probabilidad (20%) de instanciar un objeto de clase BossRoom en lugar de un Room normal.
 Estructura de la habitación: Esta clase hereda de Room pero anula la generación de entidades y objetos (quedando completamente vacía). Luego, lee la dirección de entrada para colocar al Boss en el extremo opuesto.
 Puntos de vida y Patrón de Combate:
 La clase Boss inicia con 20 hp.
